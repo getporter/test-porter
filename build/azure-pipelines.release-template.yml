@@ -62,7 +62,7 @@ stages:
               path: $(GOCACHE)
           - script: go run mage.go ConfigureAgent
             displayName: "Configure Agent"
-          - bash: mage build
+          - bash: mage -v build
             displayName: "Native Build"
           - task: PublishPipelineArtifact@0
             displayName: "Publish Native Binaries"
@@ -94,7 +94,7 @@ stages:
               path: $(GOCACHE)
           - script: go run mage.go ConfigureAgent
             displayName: "Configure Agent"
-          - bash: mage XBuildAll
+          - bash: mage -v XBuildAll
             displayName: "Cross Compile"
           - task: PublishPipelineArtifact@0
             displayName: "Publish Release Binaries"
@@ -125,9 +125,9 @@ stages:
               path: $(GOCACHE)
           - script: go run mage.go ConfigureAgent
             displayName: "Configure Agent"
-          - bash: mage Vet
+          - bash: mage -v Vet
             displayName: "Vet"
-          - bash: mage Lint
+          - bash: mage -v Lint
             displayName: "Lint"
       - job: unit_test
         displayName: "Unit Test"
@@ -153,7 +153,7 @@ stages:
               path: $(GOCACHE)
           - script: go run mage.go ConfigureAgent
             displayName: "Configure Agent"
-          - bash: mage TestUnit
+          - bash: mage -v TestUnit
             displayName: "Unit Test"
       - job: integration_test
         displayName: "Integration Test"
@@ -274,7 +274,7 @@ stages:
           - script: go run mage.go ConfigureAgent UseXBuildBinaries
             displayName: "Setup Bin"
           - script: |
-              mage PublishPorter PublishMixins
+              mage -v PublishPorter PublishMixins
             env:
               GITHUB_TOKEN: $(GITHUB_TOKEN)
             displayName: "Publish Porter Binaries"
@@ -314,5 +314,5 @@ stages:
               containerRegistryType: Container Registry
               dockerRegistryEndpoint: ${{parameters.registry}} # Log in with the saved credentials for the destination registry
               command: login
-          - script: PORTER_REGISTRY=${{parameters.registry}} mage PublishImages
+          - script: PORTER_REGISTRY=${{parameters.registry}} mage -v PublishImages
             displayName: "Publish Docker Images to ${{parameters.registry}}"

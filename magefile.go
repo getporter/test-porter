@@ -347,6 +347,7 @@ func PublishPorter() {
 	if !info.IsTaggedRelease {
 		scriptVersion = info.Permalink
 	}
+	log.Printf("Preparing installation scripts for %s release\n", scriptVersion)
 	must.Command("./scripts/prep-install-scripts.sh").Env("VERSION=" + scriptVersion).RunV()
 
 	porterVersionDir := filepath.Join("bin", info.Version)
